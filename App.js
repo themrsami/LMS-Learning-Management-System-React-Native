@@ -1,6 +1,8 @@
 // In App.js in a new project
 
 import * as React from 'react';
+import { useState } from 'react';
+import AppLoading from 'expo-app-loading';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,10 +18,30 @@ import Notifications from './Screens/Notifications';
 import Chat from './Screens/Chat';
 import Profile from './Screens/Profile';
 import Bottombar from './Screens/Components/Bottombar';
+import CourseOverview from './Screens/CourseOverview';
+import * as Font from 'expo-font';
+
+const fetchFonts = () => {
+    return Font.loadAsync({
+      'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
+      'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
+    });
+  };
 
 const Stack = createNativeStackNavigator();
 
 function App() {
+    const [fontLoaded, setFontLoaded] = useState(false);
+
+    if (!fontLoaded) {
+      return (
+        <AppLoading
+          startAsync={fetchFonts}
+          onFinish={() => setFontLoaded(true)}
+          onError={console.warn}
+        />
+      );
+    }  
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -114,6 +136,14 @@ function App() {
         <Stack.Screen 
             name='Bottombar' 
             component={Bottombar} 
+            options={{ 
+                headerShown: false,
+                headerBackTitleVisible: true
+            }}
+        />
+        <Stack.Screen 
+            name='CourseOverview' 
+            component={CourseOverview}
             options={{ 
                 headerShown: false,
                 headerBackTitleVisible: true

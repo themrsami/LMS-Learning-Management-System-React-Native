@@ -7,6 +7,7 @@ import Profile from '../Profile';
 import Video from '../Video';
 import Chat from '../Chat';
 import Notifications from '../Notifications';
+import CourseOverview from '../CourseOverview';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,11 +41,26 @@ const BottomBar = () => {
                 ]
             })}
         >
-            <Tab.Screen name="Home" component={Dashboard} />
-            <Tab.Screen name="Profile" component={Profile} />
-            <Tab.Screen name="Video" component={Video} />
-            <Tab.Screen name="Chat" component={Chat} />
-            <Tab.Screen name="Notifications" component={Notifications} />
+            <Tab.Screen name="Home" component={Dashboard} options={{ 
+              headerShown: false,
+              headerBackTitleVisible: true
+          }} />
+            <Tab.Screen name="Profile" component={Profile} options={{ 
+              headerShown: false,
+              headerBackTitleVisible: true
+          }} />
+            <Tab.Screen name="Video" component={Video} options={{ 
+              headerShown: false,
+              headerBackTitleVisible: true
+          }} />
+            <Tab.Screen name="Chat" component={Chat} options={{ 
+              headerShown: false,
+              headerBackTitleVisible: true
+          }} />
+            <Tab.Screen name="Notifications" component={Notifications} options={{ 
+              headerShown: false,
+              headerBackTitleVisible: true
+          }} />
         </Tab.Navigator>
     );
 }

@@ -3,8 +3,10 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import Tag from './Components/Tag';
 import ReusableButton from './Components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 const OverviewContent = () => {
+    const nav = useNavigation();
   return (
     <View>
       <View style={styles.price}>
@@ -55,6 +57,7 @@ const OverviewContent = () => {
             <Tag text="Graphics Design" width="150" />
         </View>
         <ReusableButton
+                    onPress={() => nav.navigate('CourseOverview')}
                     buttonStyle={{ backgroundColor: 'black' }} // Custom button style
                     textStyle={{ color: 'white' }}           // Custom text style
                     buttonText="Enroll Now"
