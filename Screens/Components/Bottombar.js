@@ -8,6 +8,7 @@ import Video from '../Video';
 import Chat from '../Chat';
 import Notifications from '../Notifications';
 import CourseOverview from '../CourseOverview';
+import WebViewComponent from '../Webviewcomponent';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,7 +46,7 @@ const BottomBar = () => {
               headerShown: false,
               headerBackTitleVisible: true
           }} />
-            <Tab.Screen name="Profile" component={Profile} options={{ 
+            <Tab.Screen name="Profile" component={WebViewComponent} options={{ 
               headerShown: false,
               headerBackTitleVisible: true
           }} />
