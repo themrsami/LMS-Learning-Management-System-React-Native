@@ -27,13 +27,6 @@ const CourseOverview = () => {
             </View>
             <Purchasedetails />
             </ScrollView>
-            <ReusableButton
-                    onPress={() => nav.navigate('CourseOverview')}
-                    buttonStyle={{ backgroundColor: 'black' }} // Custom button style
-                    textStyle={{ color: 'white' }}           // Custom text style
-                    buttonText="Enroll Now"
-                    containerStyle={{marginTop: 20, alignSelf: 'center', position: 'absolute', bottom: 20}}
-                />
     </View>
   );
 };

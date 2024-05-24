@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import DashboardIcons from './Components/DashboardIcons'
 import Searchbar from './Components/Searchbar'
@@ -9,6 +9,16 @@ import { useNavigation } from '@react-navigation/native'
 
 const Dashboard = () => {
   const nav = useNavigation()
+  const gridData = [
+    {title: 'Graphic Design', name: 'BySyedHasnain', onPress: () => nav.navigate("AboutCourseGraphicDesign"), id: '1'},
+    {title: 'WireFraming', name: 'By Shoaib Hassan', id: '2'},
+    {title: 'Website Design', name: 'By Dawar Hanif', id: '3'},
+    {title: 'Video Editing', name: 'By Ammar Ijaz', id: '4'},
+    {title: 'UI/UX Design', name: 'By John Doe', id: '5'},
+    {title: 'Mobile App Design', name: 'By Jane Doe', id: '6'},
+    {title: '3D Modeling', name: 'By Alice', id: '7'},
+    {title: 'Animation', name: 'By Bob', id: '8'},
+  ];
   return (
     <View style={{flex: 1, position: 'relative'}}>
       <ScrollView style={styles.container}>
@@ -32,18 +42,18 @@ const Dashboard = () => {
           <Text style={styles.See}>See All</Text>
         </View>
         <View style={styles.grids}>
-          <GridContent 
-              title="Graphic Design" 
-              name="BySyedHasnain" 
-              onPress={() => nav.navigate("AboutCourseGraphicDesign")}
+          <FlatList
+            data={gridData}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => 
+              <GridContent 
+                title={item.title} 
+                name={item.name} 
+                onPress={item.onPress}
+              />
+            }
+            numColumns={2}
           />
-          <GridContent title="WireFraming" name="By Shoaib Hassan"/>
-          <GridContent title="Website Design" name="By Dawar Hanif"/>
-          <GridContent title="Video Editing" name="By Ammar Ijaz"/>
-          <GridContent title="UI/UX Design" name="By John Doe"/>
-          <GridContent title="Mobile App Design" name="By Jane Doe"/>
-          <GridContent title="3D Modeling" name="By Alice"/>
-          <GridContent title="Animation" name="By Bob"/>
         </View>
       </ScrollView>
     </View>

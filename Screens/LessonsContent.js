@@ -8,6 +8,12 @@ const chapters = [
   { id: '2', title: 'Chapter 2: What is Logo Designing?' },
   { id: '3', title: 'Chapter 3: What is Poster Designing?' },
   { id: '4', title: 'Chapter 4: What is Picture Editing?' },
+  { id: '5', title: 'Chapter 5: Introduction to Typography' },
+  { id: '6', title: 'Chapter 6: Basics of Layout Design' },
+  { id: '7', title: 'Chapter 7: Understanding Color Theory' },
+  { id: '8', title: 'Chapter 8: Principles of Design' },
+  { id: '9', title: 'Chapter 9: Advanced Photo Editing Techniques' },
+  { id: '10', title: 'Chapter 10: Designing for Different Media' },
 ];
 
 const LessonsContent = () => {
