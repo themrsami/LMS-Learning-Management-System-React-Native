@@ -10,7 +10,9 @@ import PasswordInput from './Components/PasswordInput';
 import SocialIcons from './Components/SocialIcons';
 import ReusableButton from './Components/Button';
 import HorizontalDivider from './Components/HorizontalDivider';
-import firebase from './firebaseconfig'; // Import the firebase configuration
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebaseconfig';
+
 
 const Signup = () => {
     const nav = useNavigation();
@@ -20,13 +22,14 @@ const Signup = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleSignUp = () => {
+
+    const handleSignUp = async () => {
         if (password !== confirmPassword) {
             Alert.alert("Error", "Passwords do not match!");
             return;
         }
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        await createUserWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log("User registered successfully:", user);

@@ -1,20 +1,20 @@
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
-    apiKey: "AIzaSyA8_tPobmWvDJF4RCjPRrDJxjdM2n9IadY",
-    authDomain: "lms-authentication-9625f.firebaseapp.com",
-    projectId: "lms-authentication-9625f",
-    storageBucket: "lms-authentication-9625f.appspot.com",
-    messagingSenderId: "169193685948",
-    appId: "1:169193685948:web:629b7b942cafea6515a1b9",
-    measurementId: "G-TDSTRSCH7M"
-  };
+  apiKey: "AIzaSyA8_tPobmWvDJF4RCjPRrDJxjdM2n9IadY",
+  authDomain: "lms-authentication-9625f.firebaseapp.com",
+  projectId: "lms-authentication-9625f",
+  storageBucket: "lms-authentication-9625f.appspot.com",
+  messagingSenderId: "169193685948",
+  appId: "1:169193685948:web:629b7b942cafea6515a1b9",
+  measurementId: "G-TDSTRSCH7M"
+};
 
 // Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-export default firebase;
+export const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const db = getFirestore(app);

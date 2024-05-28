@@ -1,9 +1,8 @@
 // In App.js in a new project
-
+import {AppRegistry} from 'react-native';
 import * as React from 'react';
 import { useState } from 'react';
 import AppLoading from 'expo-app-loading';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './Screens/HomeScreen';
@@ -24,6 +23,7 @@ import CoursePayment from './Screens/CoursePayment';
 import AddCreditCard from './Screens/AddCreditCard';
 import TransactionSuccessfull from './Screens/TransactionSuccessfull';
 import Settings from './Screens/Settings';
+
 
 const fetchFonts = () => {
     return Font.loadAsync({

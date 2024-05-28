@@ -8,15 +8,17 @@ import SocialIcons from './Components/SocialIcons';
 import ReusableButton from './Components/Button';
 import { PrimaryText, SecondaryText } from './Components/Text';
 import HorizontalDivider from './Components/HorizontalDivider';
-import firebase from './firebaseconfig'; // Import the firebase configuration
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './firebaseconfig';
 
 const Signin = () => {
     const nav = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSignIn = () => {
-        firebase.auth().signInWithEmailAndPassword(email, password)
+    const handleSignIn = async () => {
+        await signInWithEmailAndPassword(auth, email, password)
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log("User signed in successfully:", user);
@@ -24,7 +26,7 @@ const Signin = () => {
             })
             .catch(error => {
                 console.error("Error during signin:", error);
-                Alert.alert("Error", error.message);
+                setErrorMessage('Email/Password is incorrect.'); // Set the custom error message
             });
     };
 
@@ -58,6 +60,7 @@ const Signin = () => {
                         onChangeText={setPassword}
                     />
                 </View>
+                <Text style={styles.error}>{errorMessage}</Text>
                 <Pressable style={styles.forgotbtn} onPress={() => nav.navigate('ResetPassword')}>
                     <SecondaryText>Forgot Password?</SecondaryText>
                 </Pressable>
@@ -70,6 +73,7 @@ const Signin = () => {
                 />
                 <HorizontalDivider text="or Sign in with" />
                 <SocialIcons/>
+                
                 <SecondaryText style={styles.signupText}>
                     Don't have an account? <Pressable onPress={() => nav.navigate("Signup")}><Text style={{ color: 'black' }}>Sign Up</Text></Pressable>
                 </SecondaryText>
@@ -104,5 +108,9 @@ const styles = StyleSheet.create({
     signupText: {
         marginTop: 120,
         fontSize: 16,
-    }
+    },
+    error: {
+        color: 'red',
+        paddingVertical: 10,
+      },
 })

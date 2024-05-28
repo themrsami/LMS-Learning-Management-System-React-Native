@@ -7,7 +7,12 @@ const PasswordInput = (props) => {
     const [secure, setSecure] = useState(true);
   return (
     <View>
-        <Inputcomponent title={props.title} security={secure} placeholder={props.placeholder} />
+        <Inputcomponent 
+            title={props.title} 
+            security={secure} 
+            placeholder={props.placeholder}
+            onChangeText={props.onChangeText}
+        />
         <Pressable onPress={() => setSecure(prevSecure => !prevSecure)} style={styles.icon}>
             <Ionicons name={secure ? 'eye-off' : 'eye'} size={20} color="black" />
         </Pressable>

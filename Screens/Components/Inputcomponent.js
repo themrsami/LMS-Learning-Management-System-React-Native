@@ -11,6 +11,7 @@ const Inputcomponent = (props) => {
                 style={styles.input}
                 placeholder={props.placeholder} // Corrected line
                 placeholderTextColor="#AEBAC1"
+                onChangeText={props.onChangeText}
             />
         </View>
     </View>
