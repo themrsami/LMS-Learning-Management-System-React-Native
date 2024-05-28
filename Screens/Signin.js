@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -8,9 +8,26 @@ import SocialIcons from './Components/SocialIcons';
 import ReusableButton from './Components/Button';
 import { PrimaryText, SecondaryText } from './Components/Text';
 import HorizontalDivider from './Components/HorizontalDivider';
+import firebase from './firebaseconfig'; // Import the firebase configuration
 
 const Signin = () => {
     const nav = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSignIn = () => {
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log("User signed in successfully:", user);
+                nav.navigate('Bottombar'); // Navigate to the dashboard after successful signin
+            })
+            .catch(error => {
+                console.error("Error during signin:", error);
+                Alert.alert("Error", error.message);
+            });
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -24,12 +41,22 @@ const Signin = () => {
                     <Ionicons name="arrow-back" size={24} color="black" />
                 </Pressable>
                 <PrimaryText style={styles.signintxt}>Sign In</PrimaryText>
-                <SecondaryText>Please Sign in with your accoutnt</SecondaryText>
+                <SecondaryText>Please Sign in with your account</SecondaryText>
                 <View>
-                    <Inputcomponent title="Username" placeholder="Enter your username" />
+                    <Inputcomponent
+                        title="Email"
+                        placeholder="Enter your email"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
                 </View>
                 <View>
-                    <PasswordInput title="Password" placeholder="Password"/>
+                    <PasswordInput
+                        title="Password"
+                        placeholder="Password"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
                 </View>
                 <Pressable style={styles.forgotbtn} onPress={() => nav.navigate('ResetPassword')}>
                     <SecondaryText>Forgot Password?</SecondaryText>
@@ -38,7 +65,7 @@ const Signin = () => {
                     buttonStyle={{ backgroundColor: 'black' }} // Custom button style
                     textStyle={{ color: 'white' }}           // Custom text style
                     buttonText="Sign In"
-                    onPress={() => nav.navigate('Bottombar')}
+                    onPress={handleSignIn} // Updated onPress to handle signin
                     containerStyle={{marginTop: 40,}}
                 />
                 <HorizontalDivider text="or Sign in with" />

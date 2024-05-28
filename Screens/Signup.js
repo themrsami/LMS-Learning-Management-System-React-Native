@@ -1,22 +1,49 @@
-import { StyleSheet, Text, View, TextInput, Pressable, Platform, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native'
+import {
+    StyleSheet, Text, View, TextInput, Pressable, Platform, KeyboardAvoidingView,
+    TouchableOpacity, ScrollView, Alert
+} from 'react-native'
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Inputcomponent from './Components/Inputcomponent';
 import PasswordInput from './Components/PasswordInput';
-import ConfirmPassword from './Components/ConfirmPassword';
 import SocialIcons from './Components/SocialIcons';
 import ReusableButton from './Components/Button';
 import HorizontalDivider from './Components/HorizontalDivider';
+import firebase from './firebaseconfig'; // Import the firebase configuration
 
 const Signup = () => {
     const nav = useNavigation();
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSignUp = () => {
+        if (password !== confirmPassword) {
+            Alert.alert("Error", "Passwords do not match!");
+            return;
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log("User registered successfully:", user);
+                nav.navigate('Dashboard'); // Navigate to the dashboard after successful signup
+            })
+            .catch(error => {
+                console.error("Error during signup:", error);
+                Alert.alert("Error", error.message);
+            });
+    };
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
         >
-            <ScrollView 
+            <ScrollView
                 contentContainerStyle={styles.scrollContainer}
                 showsVerticalScrollIndicator={false}
             >
@@ -26,26 +53,48 @@ const Signup = () => {
                 <Text style={styles.signuptxt}>Sign up</Text>
                 <Text style={styles.signupdescription}>Please Sign up with your account</Text>
                 <View>
-                    <Inputcomponent security={false} title="Full Name" placeholder="Enter you full name" />
+                    <Inputcomponent
+                        security={false}
+                        title="Full Name"
+                        placeholder="Enter your full name"
+                        value={fullName}
+                        onChangeText={setFullName}
+                    />
                 </View>
                 <View>
-                    <Inputcomponent security={false} title="Email Here" placeholder="Enter your Email" />
+                    <Inputcomponent
+                        security={false}
+                        title="Email Here"
+                        placeholder="Enter your Email"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
                 </View>
                 <View>
-                    <PasswordInput title="Password" placeholder="Enter Your Password"/>
+                    <PasswordInput
+                        title="Password"
+                        placeholder="Enter Your Password"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
                 </View>
                 <View>
-                    <PasswordInput title="Confirm Password" placeholder="Enter Your Confirm Password"/>
+                    <PasswordInput
+                        title="Confirm Password"
+                        placeholder="Enter Your Confirm Password"
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                    />
                 </View>
                 <ReusableButton
                     buttonStyle={{ backgroundColor: 'black' }} // Custom button style
                     textStyle={{ color: 'white' }}           // Custom text style
                     buttonText="Sign Up"
-                    onPress={() => nav.navigate('Signup')}
-                    containerStyle={{marginTop: 40,}}
+                    onPress={handleSignUp} // Updated onPress to handle signup
+                    containerStyle={{ marginTop: 40, }}
                 />
-                <HorizontalDivider text="Or Sign up with"/>
-                <SocialIcons/>
+                <HorizontalDivider text="Or Sign up with" />
+                <SocialIcons />
                 <Text style={styles.signinText}>
                     Already have an account? <Pressable onPress={() => nav.navigate('Signin')}><Text style={{ color: 'black' }}>Sign In</Text></Pressable>
                 </Text>
@@ -82,30 +131,9 @@ const styles = StyleSheet.create({
         marginTop: 10,
         color: 'grey',
     },
-    input: {
-        backgroundColor: '#DCDCDC',
-        width: 350,
-        height: 50,
-        color: 'black',
-        fontSize: 18,
-        paddingLeft: 10,
-        alignSelf: 'center',
-        borderRadius: 10,
-        borderColor: '#C0C0C0',
-        borderWidth: 1,
-    },
-    inputtitle: {
-        fontSize: 18,
-        marginTop: 20,
-    },
-    icon: {
-        position: 'absolute',
-        marginTop: 55,
-        marginLeft: 325,
-    },
     signinText: {
         marginTop: 30,
         color: '#C0C0C0',
         fontSize: 16,
     }
-})
+});

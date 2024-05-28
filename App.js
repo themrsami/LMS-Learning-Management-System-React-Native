@@ -20,6 +20,10 @@ import Profile from './Screens/Profile';
 import Bottombar from './Screens/Components/Bottombar';
 import CourseOverview from './Screens/CourseOverview';
 import * as Font from 'expo-font';
+import CoursePayment from './Screens/CoursePayment';
+import AddCreditCard from './Screens/AddCreditCard';
+import TransactionSuccessfull from './Screens/TransactionSuccessfull';
+import Settings from './Screens/Settings';
 
 const fetchFonts = () => {
     return Font.loadAsync({
@@ -144,6 +148,38 @@ function App() {
         <Stack.Screen 
             name='CourseOverview' 
             component={CourseOverview}
+            options={{ 
+                headerShown: false,
+                headerBackTitleVisible: true
+            }}
+        />
+        <Stack.Screen 
+            name='CoursePayment' 
+            component={CoursePayment}
+            options={{ 
+                headerShown: false,
+                headerBackTitleVisible: true
+            }}
+        />
+        <Stack.Screen 
+            name='AddCreditCard' 
+            component={AddCreditCard}
+            options={{ 
+                headerShown: false,
+                headerBackTitleVisible: true
+            }}
+        />
+        <Stack.Screen 
+            name='TransactionSuccessfull' 
+            component={TransactionSuccessfull}
+            options={{ 
+                headerShown: false,
+                headerBackTitleVisible: true
+            }}
+        />
+        <Stack.Screen 
+            name='Settings' 
+            component={Settings}
             options={{ 
                 headerShown: false,
                 headerBackTitleVisible: true

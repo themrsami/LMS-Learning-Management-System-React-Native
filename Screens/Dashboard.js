@@ -19,6 +19,16 @@ const Dashboard = () => {
     {title: '3D Modeling', name: 'By Alice', id: '7'},
     {title: 'Animation', name: 'By Bob', id: '8'},
   ];
+  const tagData = [
+    {text: 'UI/UX', width: 100, id: '1'},
+    {text: 'Graphics Design', width: 140, id: '2'},
+    {text: 'Figma', width: 90, id: '3'},
+    {text: 'Adobe XD', width: 120, id: '4'},
+    {text: 'Illustrator', width: 130, id: '5'},
+    {text: 'Photoshop', width: 120, id: '6'},
+    {text: 'Design', width: 90, id: '7'},
+    {text: 'Web Design', width: 120, id: '8'},
+  ];
   return (
     <View style={{flex: 1, position: 'relative'}}>
       <ScrollView style={styles.container}>
@@ -27,16 +37,19 @@ const Dashboard = () => {
           <DashboardIcons/>
         </View>
         <Searchbar/>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.tags}>
-          <Tag text="UI/UX" width={100}/>
-          <Tag text="Graphics Design" width={140}/>
-          <Tag text="Figma" width={90}/>
-          <Tag text="Adobe XD" width={120}/>
-          <Tag text="Illustrator" width={130}/>
-          <Tag text="Photoshop" width={120}/>
-          <Tag text="Design" width={90}/>
-          <Tag text="Web Design" width={120}/>
-      </ScrollView>
+        <FlatList
+          data={tagData}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => 
+            <Tag 
+              text={item.text} 
+              width={item.width}
+            />
+          }
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.tags}
+        />
         <View style={styles.Watching}>
           <Text style={styles.Watch}>Continue Watching</Text>
           <Text style={styles.See}>See All</Text>

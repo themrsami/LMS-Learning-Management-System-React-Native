@@ -47,26 +47,4 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    videobox: {
-        backgroundColor: 'gray',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: '25%',
-        paddingTop: 40,
-        marginTop: 20
-    },
-    backIcon: {
-        position: 'absolute',
-        top: 40,
-        left: 30,
-    },
-    saveIcon: {
-        position: 'absolute',
-        top: 40,
-        right: 30,
-    },
-    playIcon: {
-        position: 'absolute',
-    },
 });

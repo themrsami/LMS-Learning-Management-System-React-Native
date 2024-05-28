@@ -1,38 +1,28 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import Steps from './Components/Steps';
-import Infobox from './Components/Infobox';
-import Purchasedetails from './Components/Purchasedetails';
+import PaymentCard from './Components/PaymentCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import ReusableButton from './Components/Button';
 
 
-const CourseOverview = () => {
+const CoursePayment = () => {
     const nav = useNavigation();
   return (
     <View style={styles.maincontainer}>
-        <ScrollView style={styles.container}>
-            <Pressable onPress={() => nav.navigate('AboutCourseGraphicDesign')} style={styles.backButton}>
+        <View style={styles.container}>
+            <Pressable onPress={() => nav.navigate('CourseOverview')} style={styles.backButton}>
                 <Ionicons name="arrow-back" size={24} color="black" />
             </Pressable>
             <Steps />
-            <Text style={styles.txt}>Overview</Text>
-            <Text style={styles.course}>Course Name : <Text style={styles.coursename}>Graphic Design</Text></Text>
-            <Infobox />
-            <View style={styles.courseinfo}>
-                <Text style={styles.course}>Course Rating : <Text style={styles.boldinfo}>★★★★★</Text></Text>
-                <Text style={styles.course}>Course Time : <Text style={styles.boldinfo}>8 Weeks</Text></Text>
-                <Text style={styles.course}>Course Trainer : <Text style={styles.boldinfo}>Syed Hasnain</Text></Text>
-            </View>
-            <Purchasedetails />
-            <Purchasedetails />
-            <Purchasedetails />
-            <Purchasedetails />
-            
-            </ScrollView>
+            <Text style={styles.txt}>Select Payment Method</Text>
+            <PaymentCard text="EasyPaisa" icon="card-outline"/>
+            <PaymentCard text="JazzCash" icon="card-outline"/>
+            <PaymentCard text="Credit Card" icon="card"/>
+        </View>
             <ReusableButton
-                    onPress={() => nav.navigate('CoursePayment')}
+                    onPress={() => nav.navigate('AddCreditCard')}
                     buttonStyle={{ backgroundColor: 'black' }} // Custom button style
                     textStyle={{ color: 'white' }}           // Custom text style
                     buttonText="Continue"
@@ -52,10 +42,10 @@ const styles = StyleSheet.create({
       flex: 1,
   },
   txt: {
-    fontSize: 35,
+    fontSize: 30,
     marginVertical: 10,
     marginLeft: 20,
-    fontFamily: 'Poppins-Light',
+    fontFamily: 'Poppins-Medium',
   },
   course: {
     fontSize: 25,
@@ -80,4 +70,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default CourseOverview;
+export default CoursePayment;
