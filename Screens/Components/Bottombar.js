@@ -4,11 +4,9 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from '../Dashboard';
 import Profile from '../Profile';
-import Video from '../Video';
 import Chat from '../Chat';
 import Notifications from '../Notifications';
-import CourseOverview from '../CourseOverview';
-import WebViewComponent from '../Webviewcomponent';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -21,14 +19,12 @@ const BottomBar = () => {
 
                     if (route.name === 'Home') {
                         iconName = focused ? 'home' : 'home-outline';
-                    } else if (route.name === 'Profile') {
-                        iconName = focused ? 'person' : 'person-outline';
-                    } else if (route.name === 'Video') {
-                        iconName = focused ? 'videocam' : 'videocam-outline';
                     } else if (route.name === 'Chat') {
                         iconName = focused ? 'chatbubble' : 'chatbubble-outline';
                     } else if (route.name === 'Notifications') {
                         iconName = focused ? 'notifications' : 'notifications-outline';
+                    } else if (route.name === 'Profile') {
+                        iconName = focused ? 'person' : 'person-outline';
                     }
 
                     return <Ionicons name={iconName} size={24} color={focused ? 'black' : 'lightgray'} />;
@@ -46,11 +42,7 @@ const BottomBar = () => {
               headerShown: false,
               headerBackTitleVisible: true
           }} />
-            <Tab.Screen name="Profile" component={WebViewComponent} options={{ 
-              headerShown: false,
-              headerBackTitleVisible: true
-          }} />
-            <Tab.Screen name="Video" component={Video} options={{ 
+            <Tab.Screen name="Profile" component={Profile} options={{ 
               headerShown: false,
               headerBackTitleVisible: true
           }} />

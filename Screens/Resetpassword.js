@@ -2,10 +2,22 @@ import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView, Tou
 import React, { useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { sendPasswordResetEmail } from "firebase/auth";
+import { getAuth } from 'firebase/auth';
 
 const ResetPassword = () => {
-    const [secure, setSecure] = useState(true);
+    const [email, setEmail] = useState('');
     const nav = useNavigation();
+    const resetPassword = async () => {
+        const auth = getAuth();
+        try {
+            await sendPasswordResetEmail(auth, email);
+            alert('Password reset email sent successfully.');
+            nav.navigate("ForgotSuccess");
+        } catch (error) {
+            alert('Error sending password reset email: ' + error.message);
+        }
+    };
     return (
         <KeyboardAvoidingView behavior="padding" style={styles.container}>
             <View style={styles.container}>
@@ -15,30 +27,15 @@ const ResetPassword = () => {
                 <Text style={styles.resettxt}>Reset Password</Text>
                 <Text style={styles.resetdescription}>Please enter your new password</Text>
                 <View>
-                    <Text style={styles.inputtitle}>New Password</Text>
+                    <Text style={styles.inputtitle}>Email</Text>
                     <TextInput 
-                        secureTextEntry={secure}
                         style={styles.input} 
-                        placeholder="Enter your new password" 
+                        placeholder="Enter your email" 
                         placeholderTextColor="#AEBAC1" 
+                        onChangeText={text => setEmail(text)}
                     />
-                    <Pressable onPress={() => setSecure(prevSecure => !prevSecure)} style={styles.icon}>
-                        <Ionicons name={secure ? 'eye-off' : 'eye'} size={20} color="black" />
-                    </Pressable>
                 </View>
-                <View>
-                    <Text style={styles.inputtitle}>Confirm Password</Text>
-                    <TextInput 
-                        secureTextEntry={secure}
-                        style={styles.input} 
-                        placeholder="Confirm your new password" 
-                        placeholderTextColor="#AEBAC1" 
-                    />
-                    <Pressable onPress={() => setSecure(prevSecure => !prevSecure)} style={styles.icon}>
-                        <Ionicons name={secure ? 'eye-off' : 'eye'} size={20} color="black" />
-                    </Pressable>
-                </View>
-                <TouchableOpacity style={styles.resetbtn} onPress={()=>nav.navigate("ForgotSuccess")}>
+                <TouchableOpacity style={styles.resetbtn} onPress={resetPassword}>
                     <Text style={styles.resetbtntxt}>Reset Password</Text>
                 </TouchableOpacity>
                 <Text style={{marginTop: 120, color: '#C0C0C0', fontSize: 16,}}>Remember your password? <Pressable onPress={()=>nav.navigate('Signin')}><Text style={{color: 'black'}}>Sign In</Text></Pressable></Text>

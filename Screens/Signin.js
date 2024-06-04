@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, Pressable, KeyboardAvoidingView, Platform, TouchableOpacity, ScrollView, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import Inputcomponent from './Components/Inputcomponent';
@@ -10,6 +10,7 @@ import { PrimaryText, SecondaryText } from './Components/Text';
 import HorizontalDivider from './Components/HorizontalDivider';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from './firebaseconfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Signin = () => {
     const nav = useNavigation();
@@ -17,17 +18,50 @@ const Signin = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const credentials = await _retrieveData();
+            if (credentials) {
+                setEmail(credentials.email || '');
+                setPassword(credentials.password || '');
+            }
+        };
+        fetchData();
+    }, []);
+
+    const _storeData = async () => {
+        try {
+            await AsyncStorage.setItem('email', email);
+            await AsyncStorage.setItem('password', password);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const _retrieveData = async () => {
+        try {
+            const email = await AsyncStorage.getItem('email');
+            const password = await AsyncStorage.getItem('password');
+            console.log('Retrieved email:', email);
+            console.log('Retrieved password:', password);
+            return { email, password };
+        } catch (error) {
+            console.log(error);
+            return { email: '', password: '' };
+        }
+    };
+
     const handleSignIn = async () => {
-        await signInWithEmailAndPassword(auth, email, password)
-            .then(userCredential => {
-                const user = userCredential.user;
-                console.log("User signed in successfully:", user);
-                nav.navigate('Bottombar'); // Navigate to the dashboard after successful signin
-            })
-            .catch(error => {
-                console.error("Error during signin:", error);
-                setErrorMessage('Email/Password is incorrect.'); // Set the custom error message
-            });
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            console.log("User signed in successfully:", user);
+            await _storeData();
+            nav.navigate('Bottombar');
+        } catch (error) {
+            console.error("Error during signin:", error);
+            setErrorMessage('Email/Password is incorrect.');
+        }
     };
 
     return (
@@ -49,7 +83,7 @@ const Signin = () => {
                         title="Email"
                         placeholder="Enter your email"
                         value={email}
-                        onChangeText={setEmail}
+                        onChangeText={(text) => setEmail(text)}
                     />
                 </View>
                 <View>
@@ -57,7 +91,7 @@ const Signin = () => {
                         title="Password"
                         placeholder="Password"
                         value={password}
-                        onChangeText={setPassword}
+                        onChangeText={(text) => setPassword(text)}
                     />
                 </View>
                 <Text style={styles.error}>{errorMessage}</Text>
@@ -65,14 +99,14 @@ const Signin = () => {
                     <SecondaryText>Forgot Password?</SecondaryText>
                 </Pressable>
                 <ReusableButton
-                    buttonStyle={{ backgroundColor: 'black' }} // Custom button style
-                    textStyle={{ color: 'white' }}           // Custom text style
+                    buttonStyle={{ backgroundColor: 'black' }}
+                    textStyle={{ color: 'white' }}
                     buttonText="Sign In"
-                    onPress={handleSignIn} // Updated onPress to handle signin
-                    containerStyle={{marginTop: 40,}}
+                    onPress={handleSignIn}
+                    containerStyle={{ marginTop: 40 }}
                 />
                 <HorizontalDivider text="or Sign in with" />
-                <SocialIcons/>
+                <SocialIcons />
                 
                 <SecondaryText style={styles.signupText}>
                     Don't have an account? <Pressable onPress={() => nav.navigate("Signup")}><Text style={{ color: 'black' }}>Sign Up</Text></Pressable>
@@ -112,5 +146,5 @@ const styles = StyleSheet.create({
     error: {
         color: 'red',
         paddingVertical: 10,
-      },
-})
+    },
+});

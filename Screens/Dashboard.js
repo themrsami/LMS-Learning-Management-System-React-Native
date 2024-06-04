@@ -1,14 +1,23 @@
-import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, FlatList, Pressable } from 'react-native'
 import React from 'react'
 import DashboardIcons from './Components/DashboardIcons'
 import Searchbar from './Components/Searchbar'
 import Tag from './Components/Tag'
 import GridContent from './Components/GridContent'
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const Dashboard = () => {
   const nav = useNavigation()
+  const handleLogout = async () => {
+    try {
+        await AsyncStorage.clear();
+        nav.navigate('Signin');
+    } catch (error) {
+        console.error("Error during logout:", error);
+    }
+  };
   const gridData = [
     {title: 'Graphic Design', name: 'BySyedHasnain', onPress: () => nav.navigate("AboutCourseGraphicDesign"), id: '1'},
     {title: 'WireFraming', name: 'By Shoaib Hassan', id: '2'},
@@ -34,6 +43,9 @@ const Dashboard = () => {
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.greetings}>Welcome, Usama</Text>
+          <Pressable style={{padding: 10, backgroundColor: 'black', borderRadius: 10}} onPress={handleLogout}>
+              <Text style={{color: 'white'}}>Logout</Text>
+          </Pressable>
           <DashboardIcons/>
         </View>
         <Searchbar/>
