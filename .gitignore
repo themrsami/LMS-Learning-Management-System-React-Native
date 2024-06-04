@@ -35,4 +35,4 @@ yarn-error.*
 *.tsbuildinfo
 
 # Firebase Config
-firebaseconfig.js
+Screens/firebaseconfig.js
